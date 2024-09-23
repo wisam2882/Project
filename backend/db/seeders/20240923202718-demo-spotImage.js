@@ -19,7 +19,7 @@ module.exports = {
       {
         spotId: 2,
         url: 'https://sequelize.org/docs/v6/core-concepts/validations-and-constraints',
-        preview: false
+        preview: true
       },
     ], { validate: true });
   },
@@ -28,7 +28,7 @@ module.exports = {
     options.tableName = 'SpotImages';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      reviewId: { [Op.in]: [1, 2] }
+      spotId: { [Op.in]: [1, 2] }
     }, {});
   }
 };
