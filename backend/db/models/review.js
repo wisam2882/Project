@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'reviewId',
         onDelete: 'CASCADE',
         hooks: true
-      })
+      });
     }
   }
   Review.init({

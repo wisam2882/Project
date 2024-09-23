@@ -13,14 +13,14 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Spot'
+          model: 'Spots'
         }
       },
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'User'
+          model: 'Users'
         }
       },
       startDate: {

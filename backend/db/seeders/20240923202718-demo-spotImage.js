@@ -12,12 +12,14 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await SpotImage.bulkCreate([
       {
-        reviewId: 1,
-        url: 'https://my.appacademy.io/home/learner'
+        spotId: 1,
+        url: 'https://sequelize.org/docs/v6/other-topics/migrations',
+        preview: false
       },
       {
-        reviewId: 2,
-        url: 'https://www.google.com/'
+        spotId: 2,
+        url: 'https://sequelize.org/docs/v6/core-concepts/validations-and-constraints',
+        preview: false
       },
     ], { validate: true });
   },
