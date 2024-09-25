@@ -1,12 +1,49 @@
 const express = require('express');
 const { Spot, SpotImage, Review, ReviewImage, User } = require('../../db/models');
-const { json } = require('sequelize');
+const { json, Op } = require('sequelize');
 const { requireAuth, checkAuth } = require('../../utils/auth');
 
 const router = express.Router();
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { singularize } = require('sequelize/lib/utils');
+
+const validateQuery = [
+    check('page')
+        .optional()
+        .isInt({ min: 1 })
+        .withMessage('Page must be greater than or equal to 1'),
+    check('size')
+        .optional()
+        .isInt({ min: 1, max: 20 })
+        .withMessage('Size must be between 1 and 20'),
+    check('maxLat')
+        .optional()
+        .isFloat({ min: -90, max: 90})
+        .withMessage('Maximum latitude is invalid'),
+    check('minLat')
+        .optional()
+        .isFloat({ min: -90, max: 90})
+        .withMessage('Minimum latitude is invalid'),
+    check('maxLng')
+        .optional()
+        .isFloat({ min: -180, max: 180})
+        .withMessage('Maximum longitude is invalid'),
+    check('minLng')
+        .optional()
+        .isFloat({ min: -180, max: 180})
+        .withMessage('Minimum longitude is invalid'),
+    check('minPrice')
+        .optional()
+        .isFloat({ min: 0 })
+        .withMessage('Minimum price must be greater than or equal to 0'),
+    check('maxPrice')
+        .optional()
+        .isFloat({ min: 0 })
+        .withMessage('Maximum price must be greater than or equal to 0'),
+    handleValidationErrors
+]
 
 const validateSpot = [
     requireAuth,
@@ -70,8 +107,32 @@ const validateSpot = [
     handleValidationErrors
   ];
 
-router.get (`/`, async (req, res) => {
+router.get (`/`, validateQuery, async (req, res) => {
+
+    let size = (req.query.size === undefined) ? 20 : parseInt(req.query.size);
+    let page = (req.query.page === undefined) ? 1 : parseInt(req.query.page);
+
+    const { maxLat, minLat, minLng, maxLng, maxPrice } = req.query;
+    let { minPrice } = req.query;
+
+    const where = {
+        lat: { [Op.between]: [-90 , 90] },
+        lng: { [Op.between]: [-180 , 180] }
+    };
+    
+    if(minLat) where.lat[Op.between][0] = minLat;
+    if(maxLat) where.lat[Op.between][1] = maxLat;
+    if(minLng) where.lng[Op.between][0] = minLng;
+    if(maxLng) where.lng[Op.between][1] = maxLng;
+
+    if(minPrice) where.price = { [Op.gte]: minPrice };
+    if(maxPrice) {
+        if (!minPrice) minPrice = 0;
+        where.price ={ [Op.between]: [minPrice, maxPrice] }
+    }
+    
     const spots = await Spot.findAll({
+        where,
         include: [
             {
                 model: SpotImage
@@ -79,7 +140,9 @@ router.get (`/`, async (req, res) => {
             {
                 model: Review
             }
-        ]
+        ],
+        limit: size,
+        offset: (page-1) * size
     });
     
     const spotsResponse = [];
@@ -97,9 +160,15 @@ router.get (`/`, async (req, res) => {
         delete jsonSpot.Reviews;
 
         spotsResponse.push(jsonSpot);
-    })
+    });
 
-    res.json(spotsResponse);
+    
+
+    res.json({
+        Spots: spotsResponse,
+        page: page,
+        size: size
+    });
 });
 
 router.get(`/current`, requireAuth, async (req, res) => {
