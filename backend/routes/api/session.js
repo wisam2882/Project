@@ -52,6 +52,7 @@ router.post(
       err.errors = { credential: 'The provided credentials were invalid.' };
       return next(err);
     }
+    
  
     const safeUser = {
       id: user.id,

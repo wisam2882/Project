@@ -16,12 +16,18 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 // ...
 
-
+//added first and last name.
 const validateSignup = [
     check('email')
       .exists({ checkFalsy: true })
       .isEmail()
       .withMessage('Please provide a valid email.'),
+    check('firstName')
+      .exists({ checkFalsy: true })
+      .withMessage('Please provide first name.'),
+    check('lastName')
+      .exists({ checkFalsy: true })
+      .withMessage('Please provide last name.'),
     check('username')
       .exists({ checkFalsy: true })
       .isLength({ min: 4 })
@@ -53,13 +59,16 @@ router.post(
         username: user.username,
         firstName: user.firstName,
         lastName: user.lastName
-      };
+      }; 
+  
+
   
       await setTokenCookie(res, safeUser);
-  
+
+      //adjusted this: 
       return res.json({
         user: safeUser
       });
-    }
+    } 
   );
 module.exports = router;

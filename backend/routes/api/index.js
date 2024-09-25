@@ -4,6 +4,9 @@ const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const spotsRouter = require('./spots.js');
 
+
+const reviewRouter = require('./review.js');
+
 const { restoreUser } = require("../../utils/auth.js");
 // backend/routes/api/index.js
 // ...
@@ -11,6 +14,11 @@ const { restoreUser } = require("../../utils/auth.js");
 // GET /api/set-token-cookie
 const { setTokenCookie } = require('../../utils/auth.js');
 const { User } = require('../../db/models');
+
+
+
+router.use(restoreUser);
+
 router.get('/set-token-cookie', async (_req, res) => {
   const user = await User.findOne({
     where: {
@@ -26,7 +34,7 @@ router.get('/set-token-cookie', async (_req, res) => {
 // GET /api/restore-user
 
 
-router.use(restoreUser);
+
 
 router.get(
   '/restore-user',
@@ -35,7 +43,7 @@ router.get(
   }
 );
 
-router.use(restoreUser);
+
 
 // ...
 
@@ -55,11 +63,13 @@ router.get(
 
 
 
-  router.use(restoreUser);
 
   router.use('/session', sessionRouter);
   
   router.use('/users', usersRouter);
+
+
+  router.use('/review', reviewRouter);
 
 
   router.use('/spots', spotsRouter);

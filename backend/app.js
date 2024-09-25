@@ -1,4 +1,5 @@
 const express = require('express');
+const userRoutes = require('./routes/api/users'); //added this path =<
 require('express-async-errors');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -6,7 +7,11 @@ const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 
+const reviewsRouter = require('./routes/api/review');
+
 const routes = require('./routes');
+
+
 
 const { ValidationError } = require('sequelize');
 
@@ -14,6 +19,7 @@ const { ValidationError } = require('sequelize');
 //Create a variable called isProduction that will be true if the environment is in production or not by
 // checking the environment key in the configuration file (backend/config/index.js):
 const { environment } = require('./config');
+const router = require('./routes');
 const isProduction = environment === 'production';
 
 
@@ -32,6 +38,8 @@ app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
 
+app.use('/api/reviews', reviewsRouter);
+app.use('/api', userRoutes); 
 
 // Security Middleware
 if (!isProduction) {
@@ -106,7 +114,6 @@ app.use((err, _req, res, _next) => {
 });
 
   
-
 
 
 
