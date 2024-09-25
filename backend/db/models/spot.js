@@ -14,19 +14,19 @@ module.exports = (sequelize, DataTypes) => {
       Spot.belongsTo(models.User, {foreignKey: 'ownerId'});
 
       Spot.hasMany(models.Review, {
-        foreignKey: 'spotId',
-        onDelete: 'CASCADE',
-        hooks: true
+        // foreignKey: 'spotId',
+        // onDelete: 'CASCADE',
+        // hooks: true
       });
       Spot.hasMany(models.Booking, {
-        foreignKey: 'bookingId',
-        onDelete: 'CASCADE',
-        hooks: true
+        // foreignKey: 'spotId',
+        // onDelete: 'CASCADE',
+        // hooks: true
       });
       Spot.hasMany(models.SpotImage, {
-        foreignKey: 'spotId',
-        onDelete: 'CASCADE',
-        hooks: true
+        // foreignKey: 'spotId',
+        // onDelete: 'CASCADE',
+        // hooks: true
       });
     }
   }
@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     ownerId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      onDelete: 'CASCADE'
     }, 
     address: {
       type:DataTypes.STRING,
@@ -43,6 +44,10 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.STRING,
       allowNull: false,
     },
+    state: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     country: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -50,14 +55,19 @@ module.exports = (sequelize, DataTypes) => {
     lat: {
       type: DataTypes.NUMERIC,
       allowNull: false,
+      min: -90,
+      max: 90
     },
     lng: {
       type: DataTypes.NUMERIC,
       allowNull: false,
+      min: -180,
+      max: 180
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      len: [1, 50]
     },
     description: {
       type: DataTypes.STRING,
@@ -66,6 +76,7 @@ module.exports = (sequelize, DataTypes) => {
     price: {
       type: DataTypes.NUMERIC,
       allowNull: false,
+      min: 0
     },
   }, {
     sequelize,
