@@ -20,6 +20,7 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'Spots',
+          key: 'id'
         },
         onDelete: 'CASCADE'
       },
@@ -41,10 +42,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    });
+    }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "SpotImages";
+    options.tableName = 'SpotImages';
     return queryInterface.dropTable(options);
   }
 };

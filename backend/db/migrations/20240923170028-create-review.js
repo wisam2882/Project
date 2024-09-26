@@ -19,7 +19,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Spots'
+          model: 'Spots',
+          key: 'id'
         },
         onDelete: 'CASCADE'
       },
@@ -27,7 +28,8 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Users'
+          model: 'Users',
+          key: 'id'
         }
       },
       review: {
@@ -48,10 +50,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    });
+    }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "Reviews"
+    options.tableName = 'Reviews';
     return queryInterface.dropTable(options);
   }
 };

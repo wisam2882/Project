@@ -8,8 +8,6 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
-
-
 // /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -20,7 +18,7 @@ module.exports = {
         city: `sometown`,
         state: 'California',
         country: `usa`,
-        lat: 123.123,
+        lat: 80.123,
         lng: -123.23,
         name: `the beach House`,
         description: `A nice and a lovely beach House`,
@@ -32,7 +30,7 @@ module.exports = {
         city: `sometown`,
         state: `Arizona`,
         country: `usa`,
-        lat: 123.123,
+        lat: 30.123,
         lng: -123.23,
         name: `the beach House`,
         description: `A nice and a lovely beach House`,
