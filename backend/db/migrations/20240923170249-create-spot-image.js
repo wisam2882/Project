@@ -20,6 +20,7 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'Spots',
+          key: 'id'
         },
         onDelete: 'CASCADE'
       },
@@ -44,7 +45,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "SpotImages";
+    options.tableName = 'SpotImages';
     return queryInterface.dropTable(options);
   }
 };
