@@ -3,12 +3,11 @@ const router = require('express').Router();
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const spotsRouter = require('./spots.js');
-
+const reviewsRouter = require('./reviews.js');
+const bookingsRouter = require('./bookings.js');
 const spotImagesRouter = require('./spot-images.js');
 const reviewImagesRouter = require('./review-images.js');
 
-
-const reviewsRouter = require('./reviews.js');
 
 const { restoreUser } = require("../../utils/auth.js");
 // backend/routes/api/index.js
@@ -74,6 +73,8 @@ router.get(
   router.use('/reviews', reviewsRouter);
 
   router.use('/review-images', reviewImagesRouter);
+
+  router.use('/bookings', bookingsRouter);
 
   
   router.post('/test', (req, res) => {

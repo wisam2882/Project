@@ -80,14 +80,16 @@ const requireAuth = function (req, _res, next) {
     return next(err);
   }
 
-const checkAuth = function (req, id) {
+const checkAuth = function (req, ...id) {
 
   const { token } = req.cookies;
 
   const decoded = jwt.verify(token, secret);
 
-  if (decoded.data.id === id) return;
-
+  for (let i = 0; i < id.length; i++) {
+    if (decoded.data.id === id[i]) return;
+  }
+  
   return {
     message: "Forbidden"
   };
