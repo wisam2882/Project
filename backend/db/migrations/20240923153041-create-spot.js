@@ -18,9 +18,9 @@ module.exports = {
       ownerId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
+        reference: {
           model: 'Users',
-          key: `id`,
+          key: 'id'
         },
         onDelete: 'CASCADE'
       },
@@ -73,7 +73,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "Spots";
+    options.tableName = 'Spots';
     return queryInterface.dropTable(options);
   }
 };
