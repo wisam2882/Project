@@ -2,7 +2,7 @@ const express = require('express');
 const { Op } = require('sequelize');
 const { check } = require('express-validator');
 
-const { Spot, SpotImage, Review, ReviewImage, User } = require('../../db/models');
+const { Spot, SpotImage, Review, ReviewImage, User, Booking } = require('../../db/models');
 
 const { requireAuth, checkAuth } = require('../../utils/auth');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -106,6 +106,47 @@ const validateSpot = [
       .exists({ checkFalsy: true })
       .isInt({ min: 1, max: 5})
       .withMessage('Stars must be an integer from 1 to 5'),
+    handleValidationErrors
+  ];
+
+  const validateBooking = [
+    requireAuth,
+    async function (req, res, next) {
+    
+        const spotId = req.path.split('/')[1];
+        
+        const spot = await Spot.findOne({
+            where: {
+                id: spotId
+            },
+            attributes: ['id', 'ownerId'],
+            include: {
+                model: Booking
+            }
+        })
+        
+        if (!spot) return res.status(404).json({
+            message: "Spot couldn't be found"
+        })
+        
+        const idMismatch = checkAuth(req, spot.ownerId);
+        if (!idMismatch) return res.status(403).json({ message: 'This spot belongs to you' });
+        
+        req.body.spot = spot;
+        next();
+    },
+    check('startDate')
+        .exists({ checkFalsy: true })
+        .isDate()
+        .isAfter()
+        .withMessage('startDate cannot be in the past'),
+    check('endDate')
+        .exists({ checkFalsy: true })
+        .isDate()
+        .custom((endDate, { req }) => {
+            return endDate > req.body.startDate;
+        })
+        .withMessage('endDate cannot be on or before startDate'),
     handleValidationErrors
   ];
 
@@ -464,7 +505,73 @@ router.post(`/:spotId/reviews`, validateReview, async (req, res) => {
     res.json(newReview);
 });
 
+router.get(`/:spotId/bookings`, requireAuth, async (req, res) => {
 
+    const spotId = req.path.split('/')[1];
 
+    const spot = await Spot.findOne({
+        where: {
+            id: spotId
+        },
+        attributes: ['ownerId']
+    })
+
+    if (!spot) return res.status(404).json({
+        message: "Spot couldn't be found"
+    })
+
+    const idMismatch = checkAuth(req, spot.ownerId);
+    
+    const query = {
+        where: {
+            spotId: spotId
+        }
+    };
+
+    if (idMismatch) query.attributes = ['spotId', 'startDate', 'endDate'];
+    else {
+        query.attributes = ['id', 'spotId', 'userId', 'startDate', 'endDate', 'createdAt', 'updatedAt'];
+        query.include = { model: User, attributes: ['id', 'firstName', 'lastName'] };
+    }
+
+    const bookings = await Booking.findAll(query);
+
+    res.json({ Bookings: bookings})
+});
+
+router.post(`/:spotId/bookings`, validateBooking, async (req, res) => {
+
+    const { startDate, endDate } = req.body;
+    const parsedStartDate = Date.parse(startDate);
+    const parsedEndDate = Date.parse(endDate);
+    
+    const conflicts = {}
+
+    if(req.body.spot.Bookings.find(booking => {
+        return parsedStartDate >= booking.startDate && parsedStartDate <= booking.endDate;
+    })) conflicts.startDate = "Start date conflicts with an existing booking";
+
+    if(req.body.spot.Bookings.find(booking => {
+        return parsedEndDate >= booking.startDate && parsedEndDate <= booking.endDate;
+    })) conflicts.endDate = "End date conflicts with an existing booking"
+
+    if(req.body.spot.Bookings.find(booking => {
+        return parsedStartDate <= booking.startDate && parsedEndDate >= booking.endDate;
+    })) conflicts.duration = "Duration conflicts with an existing booking"
+
+    if (conflicts.startDate || conflicts.endDate || conflicts.duration) return res.status(403).json({
+        message: "Sorry, this spot is already booked for the specified dates",
+        errors: conflicts
+    });
+
+    const booking = await Booking.create({
+        spotId: req.body.spot.id,
+        userId: req.user.id,
+        startDate: startDate,
+        endDate: endDate
+    });
+
+    res.status(201).json(booking);
+});
 
 module.exports = router;
