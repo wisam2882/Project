@@ -73,7 +73,7 @@ const validateSpot = [
       .exists({ checkFalsy: true })
       .isLength({ min: 1, max: 50 })
       .withMessage('Name must be less than 50 characters'),
-    check('country')
+    check('description')
       .exists({ checkFalsy: true })
       .withMessage('Description is required'),
     check('price')
@@ -205,8 +205,6 @@ router.get (`/`, validateQuery, async (req, res) => {
         spotsResponse.push(jsonSpot);
     });
 
-    
-
     res.json({
         Spots: spotsResponse,
         page: page,
@@ -247,7 +245,7 @@ router.get(`/current`, requireAuth, async (req, res) => {
         spotsResponse.push(jsonSpot);
     })
 
-    res.json(spotsResponse);
+    res.json({ Spots: spotsResponse });
 });
 
 router.get(`/:spotId`, async (req, res) => {
@@ -387,8 +385,8 @@ router.put(`/:spotId`, validateSpot, async (req, res) => {
     const spotUpdated = await Spot.findOne({
         where: {
             id: spotId
-        }
-    })
+        },
+    });
 
     res.json(spotUpdated);
 });
@@ -502,7 +500,7 @@ router.post(`/:spotId/reviews`, validateReview, async (req, res) => {
         stars: stars
     })
 
-    res.json(newReview);
+    res.status(201).json(newReview);
 });
 
 router.get(`/:spotId/bookings`, requireAuth, async (req, res) => {
