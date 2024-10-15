@@ -1,0 +1,47 @@
+/* Navigation.css */
+
+ul {
+    list-style: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+    display: flex; /* Display items in a row */
+    background-color: #333; /* Background color for the nav */
+  }
+  
+  li {
+    margin: 0 15px; /* Space between items */
+  }
+  
+  a {
+    color: white; /* Link color */
+    text-decoration: none; /* Remove underline */
+    padding: 10px; /* Padding around links */
+  }
+  
+  a:hover {
+    background-color: #555; /* Background color on hover */
+  }
+  
+  .profile-dropdown {
+    list-style: none; /* Remove bullet points */
+    padding: 10px; /* Padding for dropdown */
+    margin: 0; /* Remove default margin */
+    position: absolute; /* Position it below the button */
+    background-color: white; /* Background color */
+    border: 1px solid #ccc; /* Border */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Shadow */
+    z-index: 1000; /* Ensure it appears above other elements */
+  }
+  
+  .hidden {
+    display: none; /* Hide the dropdown */
+  }
+  
+  .profile-dropdown li {
+    padding: 8px 12px; /* Padding for list items */
+  }
+  
+  .profile-dropdown li:hover {
+    background-color: #f0f0f0; /* Highlight on hover */
+  }
+  
