@@ -7,6 +7,16 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
   ],
+  overrides: [
+    {
+      files: [
+        "src/context/*.jsx"
+      ],
+      rules: {
+        'react-refresh/only-export-components': 'off'
+      }
+    }
+  ],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
@@ -20,14 +30,5 @@ module.exports = {
 
     
   },
-  overrides: [
-    {
-      files: [
-        "src/context/*.jsx"
-      ],
-      rules: {
-        'react-refresh/only-export-components': 'off'
-      }
-    }
-  ]
+
 };

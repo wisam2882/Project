@@ -1,0 +1,109 @@
+
+.spot-details{
+    max-width: 1200px;
+    display:flex;
+    flex-direction:column;
+    margin-left:20%;
+    margin-right:20%;
+}
+.image-container{
+    height:600px;
+    display:flex;
+}
+.previewImage-container{
+    width:50%;
+
+}
+.thumbnailImages-container{
+    width:50%;
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    
+}
+
+.thumbnailimage{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.previewimage{
+    width: 100%;
+    height:100%;
+    object-fit: cover;
+}
+.thumbnailimage-box{
+width:50%;
+height: 50%;
+}
+
+
+
+.details-container h1 {
+   text-align: left;
+   color: navy;
+}
+
+.details-container .location {
+    font-size: 1.2rem; 
+    color: navy; 
+    text-align: left;
+}
+.hostname h2{
+    text-align:left;
+    color: navy;
+    font-size:1em;
+    ;
+}
+
+.description p{
+    text-align:left;
+    color:navy;
+}
+.review p{
+    text-align:left;
+    color:navy;
+}
+.callout-box {
+    background-color: #f8f8f8;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-left: 20px;
+    width: 250px; /* Set a fixed width */
+}
+
+.callout-box h3 {
+    margin: 0 0 10px;
+}
+
+.callout-box button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.callout-box button:hover {
+    background-color: #0056b3;
+}
+
+.leftdetails{
+    width:60%;
+}
+.rightdetails{
+    width: 40%;
+}
+
+.detailsbody{
+    display:flex;
+    margin-top: 40px;
+
+}
+
+.first{
+    text-align: left;
+}

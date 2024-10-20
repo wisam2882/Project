@@ -45,7 +45,7 @@ function SignupFormModal() {
   };
 
   return (
-    <>
+    <div className="signup-tile"> {/* This is the new container */}
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <label>
@@ -112,7 +112,7 @@ function SignupFormModal() {
         )}
         <button type="submit">Sign Up</button>
       </form>
-    </>
+    </div>
   );
 }
 

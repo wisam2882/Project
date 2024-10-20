@@ -1,0 +1,71 @@
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark background with opacity */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it appears on top */
+}
+
+.modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%; /* Responsive width */
+    text-align: center;
+}
+
+.modal-buttons {
+    margin-top: 20px;
+}
+
+.delete-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background-color: darkgray;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px; /* Space between buttons */
+}
+
+.modal h2 {
+    margin-bottom: 10px; /* Space below title */
+}
+
+
+.manage-spots-image-container{
+    height:250px;
+}
+.manage-spots-info-container{
+    padding:10px;
+}
+.manage-spot-createbtn{
+    margin:15px;
+}
+
+.manage-spots-layout{
+    margin-right:3%;
+    margin-left:3%;
+}
+
+.manage-spots-layout h1{
+color:navy;
+}
+

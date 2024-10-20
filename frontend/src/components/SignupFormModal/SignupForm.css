@@ -1,52 +1,59 @@
-h1 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 400px;
-    margin: auto;
-  }
-  
-  label {
-    margin: 0.5rem 0;
-    font-size: 1rem;
-  }
-  
-  input {
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    margin-top: 0.5rem;
-  }
-  
-  input:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-  
-  button {
-    
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    color: black;
-    background-color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  p {
-    color: red;
-    text-align: center;
-  }
+.signup-tile {
+  width: 90%; /* Use percentage for responsiveness */
+  max-width: 400px; /* Set a maximum width */
+  height: auto; /* Allow height to adjust based on content */
+  padding: 20px;
+  margin: auto; /* Center the tile */
+  background-color: #fff; /* Background color */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Ensure inputs stretch to full width */
+  max-width: 100%; /* Ensure form does not exceed tile width */
+  margin: auto;
+}
+
+label {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  text-align: left; /* Align label text to the left */
+}
+
+input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc; /* Border for the input box */
+  border-radius: 14px;
+  width: 100%; /* Full width of the container */
+  margin-top: 0.5rem;
+  margin-bottom: 1rem; /* Add space below each input */
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: black;
+  background-color: white;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  margin-top: 1rem; /* Add space above the button */
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+p {
+  color: red;
+  text-align: center; /* Center error messages */
+}

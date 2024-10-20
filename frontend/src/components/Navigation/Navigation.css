@@ -1,47 +1,64 @@
 /* Navigation.css */
-
 ul {
-    list-style: none; /* Remove bullet points */
-    padding: 0; /* Remove default padding */
-    margin: 0; /* Remove default margin */
-    display: flex; /* Display items in a row */
-    background-color: #333; /* Background color for the nav */
-  }
-  
-  li {
-    margin: 0 15px; /* Space between items */
-  }
-  
-  a {
-    color: white; /* Link color */
-    text-decoration: none; /* Remove underline */
-    padding: 10px; /* Padding around links */
-  }
-  
-  a:hover {
-    background-color: #555; /* Background color on hover */
-  }
-  
-  .profile-dropdown {
-    list-style: none; /* Remove bullet points */
-    padding: 10px; /* Padding for dropdown */
-    margin: 0; /* Remove default margin */
-    position: absolute; /* Position it below the button */
-    background-color: white; /* Background color */
-    border: 1px solid #ccc; /* Border */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Shadow */
-    z-index: 1000; /* Ensure it appears above other elements */
-  }
-  
-  .hidden {
-    display: none; /* Hide the dropdown */
-  }
-  
-  .profile-dropdown li {
-    padding: 8px 12px; /* Padding for list items */
-  }
-  
-  .profile-dropdown li:hover {
-    background-color: #f0f0f0; /* Highlight on hover */
-  }
-  
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+align-items: center;
+  background-color: white;
+  box-shadow: 1px 1px 1px #000000;
+  padding: 10px 20px; /* Padding for the navbar */
+}
+
+li {
+  margin: 0 15px; /* Space between list items */
+}
+
+button {
+  text-decoration: none; /* Remove underline from links */
+  color: rgb(35, 53, 191); /* Link text color */
+  font-weight: bold; /* Make text bold */
+  padding: 8px 12px; /* Padding for clickable areas */
+  border: 1px solid red; /* Remove default button border */
+  background: none; /* Remove button background */
+  cursor: pointer; /* Change cursor to pointer */
+  transition: background-color 0.3s; /* Smooth background color change */
+}
+
+
+.hidden {
+  display: none;
+}
+.siteLogo{
+  display:flex;
+  align-items:center;
+  width:80%
+}
+
+.logo img{
+ width: 40px;
+ padding-right:10px;
+}
+.logo-text {
+  display: inline-block;
+  vertical-align: middle; /* Align with the logo */
+  font-size: 24px; /* Adjust font size as needed */
+  font-weight: bold; /* Make it bold if you want */
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /* Change 'YourFontName' to the font you chose */
+  color: burlywood;
+}
+
+.createspot{
+width:20%;
+text-align: right;
+}
+
+.create-spot-link {
+  margin-right: 20px; /* Space between create link and profile button */
+  text-decoration: none; /* Remove underline */
+  color: #000080; /* Link color */
+}
+
+.create-spot-link:hover {
+  text-decoration: underline; /* Underline on hover */
+}

@@ -1,0 +1,25 @@
+.new-spot {
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    height: 100vh; /* Full viewport height */
+    text-align: center; /* Center text inside */
+    padding: 20px; /* Optional padding */
+}
+
+.new-spot form {
+    display: flex; /* Use flexbox for the form */
+    flex-direction: column; /* Stack form elements vertically */
+    width: 100%; /* Full width */
+    max-width: 400px; /* Optional: Limit form width */
+}
+
+label {
+    margin-bottom: 15px; /* Space between labels */
+}
+
+.error {
+    color: red; /* Error message color */
+    font-size: 0.9em; /* Slightly smaller font for error messages */
+}
