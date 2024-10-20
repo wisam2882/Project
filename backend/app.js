@@ -5,63 +5,53 @@ const cors = require('cors');
 const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
+const { ValidationError } = require('sequelize');  // Add Sequelize ValidationError
 
-const routes = require('./routes');
-
-const { ValidationError } = require('sequelize');
-
-
-//Create a variable called isProduction that will be true if the environment is in production or not by
-// checking the environment key in the configuration file (backend/config/index.js):
 const { environment } = require('./config');
 const isProduction = environment === 'production';
 
-
-// /Initialize the Express application
-
 const app = express();
 
-//Connect the morgan middleware for logging information about requests and responses:
-
 app.use(morgan('dev'));
-
-
-//Add the cookie-parser middleware for parsing cookies and the express.json 
-//middleware for parsing JSON bodies of requests with Content-Type of "application/json".
-
 app.use(cookieParser());
 app.use(express.json());
-
 
 // Security Middleware
 if (!isProduction) {
     // enable cors only in development
     app.use(cors());
-  }
+}
   
-  // helmet helps set a variety of headers to better secure your app
-  app.use(
-    helmet.crossOriginResourcePolicy({
-      policy: "cross-origin"
-    })
-  );
-  
-  // Set the _csrf token and create req.csrfToken method
-  app.use(
-    csurf({
-      cookie: {
-        secure: isProduction,
-        sameSite: isProduction && "Lax",
-        httpOnly: true
-      }
-    })
-  );
+// helmet helps set a variety of headers to better secure your app
+app.use(
+  helmet.crossOriginResourcePolicy({
+    policy: "cross-origin"
+  })
+);
 
-  app.use(routes); // Connect all the routes
+// Set the _csrf token and create req.csrfToken method
+app.use(
+  csurf({
+    cookie: {
+      secure: isProduction,
+      sameSite: isProduction && "Lax",
+      httpOnly: true
+    }
+  })
+);
 
+// Route to get CSRF token
+app.get('/api/csrf/restore', (req, res) => {
+  res.cookie('XSRF-TOKEN', req.csrfToken(), { httpOnly: false }); // Set this cookie so the frontend can read it
+  return res.json({ csrfToken: req.csrfToken() });
+});
 
-  // backend/app.js
-// ...
+//Route connections
+const routes = require('./routes');
+app.use(routes); // Connect all the routes
+
+// Error Handling Middleware
+
 // Catch unhandled requests and forward to error handler.
 app.use((_req, _res, next) => {
   const err = new Error("The requested resource couldn't be found.");
@@ -70,12 +60,6 @@ app.use((_req, _res, next) => {
   err.status = 404;
   next(err);
 });
-
-// backend/app.js
-// ...
-
-
-// ...
 
 // Process sequelize errors
 app.use((err, _req, _res, next) => {
@@ -91,8 +75,6 @@ app.use((err, _req, _res, next) => {
   next(err);
 });
 
-// backend/app.js
-// ...
 // Error formatter
 app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
@@ -105,12 +87,5 @@ app.use((err, _req, res, _next) => {
   });
 });
 
-  
 
-
-
-
-
-  
-
-  module.exports = app;
+module.exports = app;

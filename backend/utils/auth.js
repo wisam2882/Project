@@ -1,44 +1,39 @@
-// backend/utils/auth.js
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
-const { User } = require('../db/models');
+const { User, Spot, Review, Booking, SpotImage, ReviewImage } = require('../db/models');
+
 
 const { secret, expiresIn } = jwtConfig;
 
 
-
-//setTokenCookie
 // Sends a JWT Cookie
 const setTokenCookie = (res, user) => {
     // Create the token.
     const safeUser = {
-      id: user.id,
-      email: user.email,
-      username: user.username,
+        id: user.id,
+        email: user.email,
+        username: user.username,
     };
     const token = jwt.sign(
-      { data: safeUser },
-      secret,
-      { expiresIn: parseInt(expiresIn) } // 604,800 seconds = 1 week
+        { data: safeUser },
+        secret,
+        { expiresIn: parseInt(expiresIn) } // 604,800 seconds = 1 week
     );
-  
+
     const isProduction = process.env.NODE_ENV === "production";
-  
+
     // Set the token cookie
     res.cookie('token', token, {
-      maxAge: expiresIn * 1000, // maxAge in milliseconds
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction && "Lax"
+        maxAge: expiresIn * 1000, // maxAge in milliseconds
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction && "Lax"
     });
   
     return token;
-  };
+};
 
-
-
-
-//restoreUser
+//restore the session user
 const restoreUser = (req, res, next) => {
     // token parsed from cookies
     const { token } = req.cookies;
@@ -65,11 +60,9 @@ const restoreUser = (req, res, next) => {
   
       return next();
     });
-  };
+};
 
-
-//requireAuth
-  // If there is no current user, return an error
+//requires a session user to be authenticated before accessing a route
 const requireAuth = function (req, _res, next) {
     if (req.user) return next();
   
@@ -78,23 +71,89 @@ const requireAuth = function (req, _res, next) {
     err.errors = { message: 'Authentication required' };
     err.status = 401;
     return next(err);
+}
+
+//requires current user to be the owner of a spot
+const requireSpotOwner = async (req, res, next) => {
+  let {spotId} = req.params;
+
+  //if req.params only gives an image id, find the images spotId
+  if (!spotId && req.params.imageId) {
+    const spotImage = await SpotImage.findByPk(req.params.imageId);
+
+    if (!spotImage) {
+      return res.status(404).json({ message: "Spot Image couldn't be found" });
+    }
+
+    spotId = spotImage.spotId;
   }
 
-const checkAuth = function (req, ...id) {
+  const spot = await Spot.findByPk(spotId);
 
-  const { token } = req.cookies;
-
-  const decoded = jwt.verify(token, secret);
-
-  for (let i = 0; i < id.length; i++) {
-    if (decoded.data.id === id[i]) return;
+  if(!spot) {
+    return res.status(404).json({message: "Spot couldn't be found"});
   }
-  
-  return {
-    message: "Forbidden"
-  };
+
+  if(spot.ownerId != req.user.id) {
+    return res.status(403).json({message: "Forbidden"});
+  }
+
+  next();
+}
+
+//requires current user to be owner of a review
+const requireReviewOwner = async (req, res, next)=> {
+  let {reviewId} = req.params;
+
+  //if req.params only gives an image id, find the images spotId
+  if (!reviewId && req.params.imageId) {
+    const reviewImage = await ReviewImage.findByPk(req.params.imageId);
+
+    if (!reviewImage) {
+      return res.status(404).json({ message: "Review Image couldn't be found" });
+    }
+
+    reviewId = reviewImage.reviewId;
+  }
+
+  const review = await Review.findByPk(reviewId);
+
+  if(!review) {
+    return res.status(404).json({message: "Review couldn't be found"});
+  }
+
+  if(review.userId != req.user.id) {
+    return res.status(403).json({message: "Forbidden"});
+  }
+
+  next();
+}
+
+const requireBookingOwner = async (req, res, next) => {
+  const {bookingId} = req.params;
+
+  const booking = await Booking.findByPk(bookingId);
+
+  if(!booking) {
+    return res.status(404).json({message: "Booking couldn't be found"});
+  }
+
+  if(booking.userId !== req.user.id) {
+    return res.status(403).json({message: "Forbidden"})
+  }
+
+  next();
 }
 
 
 
-module.exports = { setTokenCookie, restoreUser, requireAuth, checkAuth };
+
+module.exports = { 
+  setTokenCookie, 
+  restoreUser, 
+  requireAuth, 
+  requireSpotOwner,
+  requireReviewOwner,
+  requireBookingOwner
+};
+

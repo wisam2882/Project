@@ -1,0 +1,156 @@
+/* Main container for spot details */
+.spot-details-container {
+    display: grid;
+    grid-template-areas:
+        "header header"
+        "image-gallery image-gallery"
+        "host-description callout"
+        "reviews reviews";
+    grid-template-columns: 2fr 1fr; /* 2:1 ratio between left content and callout box */
+    gap: 20px; /* Space between the grid items */
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 600px;
+}
+
+/* Spot Name and Location */
+.spot-header {
+    grid-area: header;
+}
+
+.spot-title{
+    display:flex;
+    justify-content: flex-start;
+}
+p{
+    color: black;
+}
+
+/* Image gallery */
+.image-gallery {
+    display: grid;
+    grid-template-areas:
+        "large-image small-images";
+    grid-template-columns: 1fr 1fr; /* Large image takes 2x space */
+    gap: 10px;
+    grid-area: image-gallery;
+}
+
+.large-image {
+    grid-area: large-image;
+}
+
+.large-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.small-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+}
+
+.small-images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Host info and description */
+.host-description {
+    grid-area: host-description;
+}
+
+/* Call-out box */
+.call-out-box {
+    background-color: #f8f8f8; 
+    padding: 16px; 
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    margin-top: 20px; 
+}
+
+.call-out-info {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+
+.price-info{
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.price-info span{
+    font-weight: lighter;
+    font-size: 16px;
+}
+
+.call-out-reviews {
+    display: flex; 
+    align-items: center; 
+}
+
+.reserve-button {
+    width: 100%; 
+    padding: 12px; 
+    background-color: #007BFF; 
+    color: white; 
+    border: 1px solid black; 
+    border-radius: 4px; 
+    margin-top: 8px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    box-shadow: 0 4px 8px rgba(1, 2, 2, 0.2);
+}
+
+.reserve-button:hover {
+    background-color: #0056b3;
+}
+
+/* Reviews Section */
+.reviews-section {
+    grid-area: reviews;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.review-header {
+    display:flex;
+    align-items: center;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.review-rating, .review-count {
+    margin: 0 5px;
+}
+
+.review-item {
+    margin-bottom: 20px;
+}
+
+.review-author {
+    font-weight: bold;
+}
+
+.review-date {
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.review-text {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.post-review-button-container{
+    width: 12rem;
+}

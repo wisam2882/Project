@@ -6,26 +6,21 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       // define association here
-      User.hasMany(models.Spot, {
-        foreignKey: 'ownerId',
-        onDelete: 'CASCADE',
-        hooks: true
-      });
-      User.hasMany(models.Booking, {
-        foreignKey: 'userId',
-        onDelete: 'CASCADE',
-        hooks: true
-      });
-      User.hasMany(models.Review, {
-        foreignKey: 'userId',
-        onDelete: 'CASCADE',
-        hooks: true
-      });
+      User.hasMany(models.Spot, {foreignKey: 'ownerId'})
     }
   }
 
+
   User.init(
     {
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -55,21 +50,6 @@ module.exports = (sequelize, DataTypes) => {
           len: [60, 60],
         },
       },
-      firstName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          len: [1, 256],
-        },
-      },
-      lastName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          len: [1, 256],
-        },
-      },
-
     },
     {
       sequelize,
