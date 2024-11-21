@@ -1,8 +1,4 @@
 // backend/routes/api/users.js
-
-
-
-
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
@@ -14,8 +10,6 @@ const router = express.Router();
 //Validating Signup Request Body
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-// ...
-
 
 const validateSignup = [
     check('email')
@@ -37,7 +31,7 @@ const validateSignup = [
     handleValidationErrors
   ];
 
-// Sign up
+
 // Sign up
 router.post(
     '/',
@@ -57,7 +51,7 @@ router.post(
   
       await setTokenCookie(res, safeUser);
   
-      return res.json({
+      return res.status(201).json({
         user: safeUser
       });
     }

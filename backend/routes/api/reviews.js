@@ -5,13 +5,8 @@ const router = express.Router();
 const { requireAuth, checkAuth } = require('../../utils/auth');
 
 
-router.get('/current', async (req, res) => {
+router.get('/current',requireAuth, async (req, res) => {
   
-  
-  // console.log(req.user);
-  // const userId = req.user.id; 
-  
-
   const reviews = await Review.findAll({
     where: { userId: req.user.id },
     include: [
@@ -22,7 +17,7 @@ router.get('/current', async (req, res) => {
       {
         model: Spot,
         attributes: [
-          'id', 'ownerId', 'address', 'city', 
+          'id', 'ownerId', 'address', 'city', 'state', 
           'country', 'lat', 'lng', 'name', 'price'
         ],
         include: [
@@ -66,6 +61,7 @@ router.get('/current', async (req, res) => {
         ownerId: spot.ownerId,
         address: spot.address,
         city: spot.city,
+        state: spot.state,
         country: spot.country,
         lat: spot.lat,
         lng: spot.lng,
@@ -82,14 +78,7 @@ router.get('/current', async (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-router.post(`/:reviewId/images`,  async (req, res) => {
+router.post(`/:reviewId/images`, requireAuth, async (req, res) => {
     const { reviewId } = req.params;
     const { url } = req.body;
 
@@ -127,9 +116,7 @@ router.post(`/:reviewId/images`,  async (req, res) => {
 });
 
 
-
-
-router.put(`/:reviewId`, async (req, res) =>  {
+router.put(`/:reviewId`, requireAuth, async (req, res) =>  {
   const { reviewId } = req.params;
   const { review, stars } = req.body;
 
@@ -147,7 +134,6 @@ router.put(`/:reviewId`, async (req, res) =>  {
           errors: errors
       });
   }
-
 
   const reviewEntry = await Review.findOne({
       where: { id: reviewId },
@@ -178,11 +164,7 @@ router.put(`/:reviewId`, async (req, res) =>  {
 });
 
 
-
-
-
-
-router.delete(`/:reviewId`, async (req, res) => {
+router.delete(`/:reviewId`, requireAuth, async (req, res) => {
   const { reviewId } = req.params;
 
   // Check if the review exists
@@ -209,14 +191,5 @@ router.delete(`/:reviewId`, async (req, res) => {
   // Respond with success message
   return res.status(200).json({ message: "Successfully deleted" });
 });
-
-
-
-
-
-
-
-
-
 
 module.exports = router;

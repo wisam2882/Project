@@ -7,11 +7,8 @@ const reviewsRouter = require('./reviews.js');
 const bookingsRouter = require('./bookings.js');
 const spotImagesRouter = require('./spot-images.js');
 const reviewImagesRouter = require('./review-images.js');
-
-
 const { restoreUser } = require("../../utils/auth.js");
-// backend/routes/api/index.js
-// ...
+
 
 // GET /api/set-token-cookie
 const { setTokenCookie } = require('../../utils/auth.js');
@@ -26,13 +23,8 @@ router.get('/set-token-cookie', async (_req, res) => {
   return res.json({ user: user });
 });
 
-// ...
 
 // GET /api/restore-user
-
-
-router.use(restoreUser);
-
 router.get(
   '/restore-user',
   (req, res) => {
@@ -40,9 +32,6 @@ router.get(
   }
 );
 
-router.use(restoreUser);
-
-// ...
 
 // GET /api/require-auth
 const { requireAuth } = require('../../utils/auth.js');
@@ -55,30 +44,14 @@ router.get(
 );
 
 
+router.use(restoreUser);
 
-// ...
-
-
-
-  router.use(restoreUser);
-
-  router.use('/session', sessionRouter);
+router.use('/session', sessionRouter);
+router.use('/users', usersRouter);
+router.use('/spots', spotsRouter);
+router.use('/spot-images', spotImagesRouter);
+router.use('/reviews', reviewsRouter);
+router.use('/review-images', reviewImagesRouter);
+router.use('/bookings', bookingsRouter);
   
-  router.use('/users', usersRouter);
-
-  router.use('/spots', spotsRouter);
-
-  router.use('/spot-images', spotImagesRouter);
-
-  router.use('/reviews', reviewsRouter);
-
-  router.use('/review-images', reviewImagesRouter);
-
-  router.use('/bookings', bookingsRouter);
-
-  
-  router.post('/test', (req, res) => {
-    res.json({ requestBody: req.body });
-  });
-  
-  module.exports = router;
+module.exports = router;

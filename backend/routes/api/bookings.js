@@ -82,7 +82,7 @@ router.put(`/:bookingId`, validateBooking, async (req, res) => {
 
     const booking = req.body.booking;
 
-    if (booking.endDate < Date.now()) return res.status(400).json({
+    if (booking.endDate < Date.now()) return res.status(403).json({
         message: "Past bookings can't be modified"
     });
 
