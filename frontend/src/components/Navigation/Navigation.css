@@ -51,7 +51,13 @@
     color: #FFD700; 
 }
 
-
+.site-title {
+    font-size: 24px; /* Adjust the font size */
+    color: #333; /* Dark color for contrast */
+    margin: 0 20px; /* Add some margin for spacing */
+    display: inline-block; /* Keep it inline with the logo */
+    font-family: 'Noto Sans Arabic';
+}
 .profile-button {
     display: flex; 
     align-items: center; 
@@ -101,7 +107,7 @@
 }
 
 .profile-dropdown button:hover {
-    background: #cc0000; 
+    background: #6d0d0d; 
 }
 
 

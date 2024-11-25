@@ -12,6 +12,7 @@ function Navigation({ isLoaded }) {
   return (
     <nav className="navbar">
       <Logo />
+      <h1 className="site-title">One Thousand and One Nights</h1> 
       <ul className="nav-links">
         {sessionUser && (
           <li>

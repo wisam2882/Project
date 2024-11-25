@@ -7,11 +7,13 @@
         "host-description callout"
         "reviews reviews";
     grid-template-columns: 2fr 1fr; /* 2:1 ratio between left content and callout box */
-    gap: 20px; /* Space between the grid items */
+    gap: 2px; /* Space between the grid items */
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
-    margin-top: 600px;
+    margin-top: 10px;
+    background-color: black; /* Set background color to black */
+    color: white; /* Optiona
 }
 
 /* Spot Name and Location */
@@ -68,10 +70,10 @@ p{
 
 /* Call-out box */
 .call-out-box {
-    background-color: #f8f8f8; 
+    background-color: #bb3232; 
     padding: 16px; 
     border: 1px solid #ccc; 
-    border-radius: 8px; 
+    border-radius: 10px; 
     margin-top: 20px; 
 }
 
@@ -84,11 +86,13 @@ p{
 .price-info{
     font-weight: bold;
     font-size: 24px;
+    color: white;
 }
 
 .price-info span{
     font-weight: lighter;
     font-size: 16px;
+    color: white;
 }
 
 .call-out-reviews {
@@ -99,7 +103,7 @@ p{
 .reserve-button {
     width: 100%; 
     padding: 12px; 
-    background-color: #007BFF; 
+    background-color: red; 
     color: white; 
     border: 1px solid black; 
     border-radius: 4px; 
@@ -110,7 +114,7 @@ p{
 }
 
 .reserve-button:hover {
-    background-color: #0056b3;
+    background-color: #b3003c;
 }
 
 /* Reviews Section */
