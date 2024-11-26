@@ -14,7 +14,7 @@
     height: 60px;
     border-bottom: 2px solid #ccc;
     background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px red (0, 0, 0, 0.1);
     z-index: 999;
 }
 
@@ -48,7 +48,7 @@
 }
 
 .nav-links li a:hover {
-    color: #FFD700; 
+    color: gold; 
 }
 
 .site-title {
@@ -111,3 +111,35 @@
 }
 
 
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 1rem; /* Reduce padding for smaller screens */
+    }
+
+    .site-title {
+        font-size: 10px; /* Smaller font size for mobile */
+        margin: 0 10px; /* Adjust margin */
+        color: #6d0d0d;
+    }
+
+    .profile-button {
+        font-size: 10px; /* Smaller font size for mobile */
+        height: 36px; /* Adjust height */
+    }
+
+    .nav-links li a {
+        font-size: 18px; /* Smaller font size for links */
+    }
+    .logo img {
+        height: 20px;
+        width: 20; 
+    }
+    .nav-links li a {
+        color: black;
+        font-size: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s;
+    }
+    
+}

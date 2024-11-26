@@ -9,7 +9,7 @@ function DeleteReviewConfirmationModal({ reviewId, onReviewDeleted }) {
 
   const handleDelete = async () => {
     await dispatch(deleteReview(reviewId));
-    onReviewDeleted(reviewId); // Update local state to remove the review
+    onReviewDeleted(reviewId); 
     closeModal();
   };
 
@@ -18,9 +18,9 @@ function DeleteReviewConfirmationModal({ reviewId, onReviewDeleted }) {
       <h2 role="heading">Confirm Delete</h2>
       <p>Are you sure you want to delete this review?</p>
       <button data-testid="confirm-delete-button" className="delete-confirm-button" onClick={handleDelete}>
-        Yes (Delete Review)
+        Yes 
       </button>
-      <button className="delete-cancel-button" onClick={closeModal}>No (Keep Review)</button>
+      <button className="delete-cancel-button" onClick={closeModal}>No </button>
     </div>
   );
 }

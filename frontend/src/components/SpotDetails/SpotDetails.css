@@ -12,7 +12,7 @@
     max-width: 1200px;
     margin: 0 auto;
     margin-top: 10px;
-    background-color: black; /* Set background color to black */
+    background-color: rgb(165, 165, 165); /* Set background color to black */
     color: white; /* Optiona
 }
 
@@ -157,4 +157,5 @@ p{
 
 .post-review-button-container{
     width: 12rem;
+}
 }

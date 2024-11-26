@@ -12,40 +12,47 @@ function LoginFormModal() {
   const { closeModal } = useModal();
   const user = useSelector((state) => state.session.user);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors({});
+    setErrors({}); // Clear previous errors
 
-    return dispatch(sessionActions.login({ credential, password }))
-      .then(closeModal)
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.message);
-        } else if (data && data.message) {
-          setErrors({ general: data.message });
-        }
-      });
+    try {
+      await dispatch(sessionActions.login({ credential, password }));
+      closeModal(); // Close modal on successful login
+    } catch (res) {
+      const data = await res.json();
+      if (data && data.errors) {
+        // Assuming errors is an object with keys for each field
+        setErrors({ general: data.errors.credential || 'Invalid credentials' });
+      } else if (data && data.message) {
+        setErrors({ general: data.message });
+      } else {
+        setErrors({ general: 'An unknown error occurred.' });
+      }
+    }
   };
 
   const isButtonDisabled = credential.length < 4 || password.length < 6;
 
-  const handleDemoLogin = () => {
+  const handleDemoLogin = async () => {
     const demoUser = {
       credential: "Demo-lition",
       password: "password"
     };
 
-    return dispatch(sessionActions.login(demoUser))
-      .then(closeModal)
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.message);
-        } else if (data && data.message) {
-          setErrors({ general: data.message });
-        }
-      });
+    try {
+      await dispatch(sessionActions.login(demoUser));
+      closeModal();
+    } catch (res) {
+      const data = await res.json();
+      if (data && data.errors) {
+        setErrors({ general: data.errors.credential || 'Invalid credentials' });
+      } else if (data && data.message) {
+        setErrors({ general: data.message });
+      } else {
+        setErrors({ general: 'An unknown error occurred.' });
+      }
+    }
   };
 
   // Return null if user is logged in
@@ -53,7 +60,6 @@ function LoginFormModal() {
 
   return (
     <div className="login-form-container" data-testid="login-modal">
-      {/* Conditionally hide the heading */}
       <h1 className={user ? 'visually-hidden' : ''}>Log In</h1>
       <form onSubmit={handleSubmit}>
         <label>
@@ -76,7 +82,7 @@ function LoginFormModal() {
             data-testid="password-input"
           />
         </label>
-        {errors.general && <p className="error">The provided credentials were invalid</p>}
+        {errors.general && <p className="error">{errors.general}</p>} {/* Display error message */}
 
         <button data-testid="login-button" type="submit" disabled={isButtonDisabled}>
           Log in

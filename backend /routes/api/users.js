@@ -12,15 +12,39 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const validateSignup = [
-    check('email')
+  check('email')
+    .exists({ checkFalsy: true })
+    .isEmail()
+    .withMessage('Please provide a valid email.')
+    .custom(async (email) => {
+      const user = await User.findOne({ where: { email } });
+      if (user) {
+        throw new Error('This email is already associated with an account.');
+      }
+    }),
+    check('username')
       .exists({ checkFalsy: true })
+      .isLength({ min: 5 })
+      .withMessage('Please provide a username with at least 5 characters.')
+      .not()
       .isEmail()
-      .withMessage('Please provide a valid email.'),
-    check('username')
+      .withMessage('Username cannot be an email.')
+      .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/) 
+      .withMessage('Username must contain at least one number.'),
+    check('firstName')
       .exists({ checkFalsy: true })
-      .isLength({ min: 4 })
-      .withMessage('Please provide a username with at least 4 characters.'),
-    check('username')
+      .isLength({ min: 1 })
+      .withMessage('First name is required.')
+      .matches(/^[A-Za-z]+$/) 
+      .withMessage('First name must contain only letters.'),
+    
+    check('lastName')
+      .exists({ checkFalsy: true })
+      .isLength({ min: 1 })
+      .withMessage('Last name is required.')
+      .matches(/^[A-Za-z]+$/) 
+      .withMessage('Last name must contain only letters.'),
+      check('username')
       .not()
       .isEmail()
       .withMessage('Username cannot be an email.'),

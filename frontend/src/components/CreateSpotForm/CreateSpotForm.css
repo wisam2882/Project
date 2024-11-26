@@ -79,16 +79,5 @@ button:hover {
     background-color: #0056b3; /* Darker blue on hover */
 }
 
-@media (max-width: 600px) {
-    .create-spot-form {
-        padding: 15px; /* Adjust padding for smaller screens */
-    }
 
-    h2 {
-        font-size: 24px; /* Smaller title on mobile */
-    }
 
-    button {
-        font-size: 14px; /* Smaller button text on mobile */
-    }
-}
