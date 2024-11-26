@@ -48,10 +48,46 @@ const CreateSpotForm = () => {
     return Object.keys(validationErrors).length === 0;
   };
 
+
+
+
+
+
+
+
+
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!validateForm()) return;
+
+  //   const newSpot = await dispatch(createSpot({
+  //     ownerId: 1,
+  //     country: formData.country,
+  //     address: formData.address,
+  //     city: formData.city,
+  //     state: formData.state,
+  //     name: formData.name,
+  //     description: formData.description,
+  //     price: parseFloat(formData.price),
+  //     lat: 30,
+  //     lng: 30
+  //   }));
+
+  //   if (newSpot) {
+  //     await dispatch(addImageToSpot(newSpot.id, { url: formData.previewImage, preview: true }));
+  //     for (let imageUrl of formData.images) {
+  //       if (imageUrl) {
+  //         await dispatch(addImageToSpot(newSpot.id, { url: imageUrl, preview: false }));
+  //       }
+  //     }
+  //     navigate(`/spots/${newSpot.id}`);
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-
+  
     const newSpot = await dispatch(createSpot({
       ownerId: 1,
       country: formData.country,
@@ -64,17 +100,33 @@ const CreateSpotForm = () => {
       lat: 30,
       lng: 30
     }));
-
+  
     if (newSpot) {
-      await dispatch(addImageToSpot(newSpot.id, { url: formData.previewImage, preview: true }));
-      for (let imageUrl of formData.images) {
+      // Set the first image as the preview
+      if (formData.previewImage) {
+        await dispatch(addImageToSpot(newSpot.id, { url: formData.previewImage, preview: true }));
+      }
+  
+      // Add the rest of the images as non-preview
+      for (let i = 0; i < formData.images.length; i++) {
+        const imageUrl = formData.images[i];
         if (imageUrl) {
           await dispatch(addImageToSpot(newSpot.id, { url: imageUrl, preview: false }));
         }
       }
+  
       navigate(`/spots/${newSpot.id}`);
     }
   };
+
+
+
+
+
+
+
+
+
 
   return (
     <form data-testid="create-spot-form" className="create-spot-form" onSubmit={handleSubmit}>
