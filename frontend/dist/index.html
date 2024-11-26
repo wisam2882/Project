@@ -1,16 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
-    <!-- <link rel="icon" type="image/x-icon" href="/favicon2.ico" /> -->
     <link rel="icon" href="/favicon2.ico" data-testid="favicon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Authenticate Me</title>
-    <script type="module" crossorigin src="/assets/index-2620a74a.js"></script>
-    <link rel="stylesheet" href="/assets/index-ae171125.css">
-  </head>
-  <body>
-    <div id="root"></div>
+    <title>One Thousand and One Nights</title>
+    <style>
+        .image-container {
+            position: relative;
+            display: inline-block; /* Allows the popup to position relative to the container */
+            margin: 20px; /* Add some margin for spacing */
+        }
+
+        .thumbnail {
+            width: 150px; /* Adjust as needed */
+            height: auto;
+            cursor: pointer; /* Change cursor to pointer */
+        }
+
+        .popup {
+            position: absolute;
+            top: 0; /* Adjust as needed */
+            left: 100%; /* Position to the right of the thumbnail */
+            width: 300px; /* Adjust as needed */
+            display: none; /* Initially hidden */
+            z-index: 10; /* Ensure it appears above other elements */
+            border: 1px solid #ccc; /* Optional: add a border */
+            background-color: white; /* Optional: background color */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Optional: shadow effect */
+        }
+
+        .image-container:hover .popup {
+            display: block; /* Show popup on hover */
+        }
+    </style>
+  <script type="module" crossorigin src="/assets/index-e98060b7.js"></script>
+  <link rel="stylesheet" href="/assets/index-0826b54d.css">
+</head>
+<body>
+    <div id="root">
+        <div class="image-container">
+            <img src="thumbnail.jpg" alt="Thumbnail" class="thumbnail" />
+            <div class="popup">
+                <img src="fullsize.jpg" alt="Full Size" />
+            </div>
+        </div>
+    </div>
     
-  </body>
+</body>
 </html>
